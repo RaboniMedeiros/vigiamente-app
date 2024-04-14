@@ -1,0 +1,6 @@
+/* CSS HEX */
+--myrtle-green: #426b69;
+--olivine: #b5ca8d;
+--white: #ffffff;
+--tropical-indigo: #9191e9;
+--space-cadet: #222e50;
