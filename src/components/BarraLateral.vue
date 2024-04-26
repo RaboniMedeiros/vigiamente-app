@@ -13,31 +13,37 @@
                     {{ textoBotao }}
                 </button>
             </div>
-            <div class="row">
-                <button>
-                        Login
-                </button>
-            </div>
-            <div class="row">
-                <button>
-                        Dashboard
-                </button>
-            </div>
-            <div class="row">
-                <button>
-                        Cadastrar Twitter
-                </button>
-            </div>
-            <div class="row">
-                <button>
-                        Cadastrar Usuário
-                </button>
-            </div>
-            <div class="row">
-                <button>
-                        Sair
-                </button>
-            </div>
+            <nav>
+                <div class="row">
+                    <router-link to="/">
+                        <button>
+                                Login
+                        </button>
+                    </router-link>
+                </div>
+                <div class="row">
+                    <button>
+                            Dashboard
+                    </button>
+                </div>
+                <div class="row">
+                    <button>
+                            Cadastrar Twitter
+                    </button>
+                </div>
+                <div class="row">
+                    <router-link to="/cadastro">
+                        <button>
+                                Cadastrar Usuário
+                        </button>
+                    </router-link>
+                </div>
+                <div class="row">
+                    <button>
+                            Sair
+                    </button>
+                </div>
+            </nav>
         </div>
     </header>
 </template>

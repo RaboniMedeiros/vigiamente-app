@@ -4,7 +4,7 @@
       <BarraLateral @aoTemaAlterado="trocarTema"/>
     </div>
     <div class="column is-three-quarter conteudo">
-      <Login />
+      <router-view></router-view>
     </div>
   </main>
 </template>
@@ -18,9 +18,7 @@ import Login from './components/Login.vue'
 export default defineComponent({
   name: 'App',
   components: {
-    BarraLateral,
-    //CadastroUsuario,
-    Login
+    BarraLateral
   },
   data () {
     return {
