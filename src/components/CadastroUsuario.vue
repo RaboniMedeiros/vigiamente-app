@@ -38,7 +38,6 @@ export default defineComponent ({
 <style scoped>
 div.rows {
     padding: 2rem;
-    color: #222e50;
     font-size: 1rem;
     font-weight: 600;
 }

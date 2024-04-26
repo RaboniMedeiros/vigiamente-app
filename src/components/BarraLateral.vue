@@ -9,6 +9,11 @@
                 </h1>
             </div>
             <div class="row">
+                <button @click="alterarTema">
+                    {{ textoBotao }}
+                </button>
+            </div>
+            <div class="row">
                 <button>
                         Login
                 </button>
@@ -41,7 +46,27 @@
 import { defineComponent } from 'vue'
 
 export default defineComponent ({
-    name: 'BarraLateral'
+    name: 'BarraLateral',
+    emits: ['aoTemaAlterado'],
+    data () {
+        return {
+            modoEscuroAtivo: false
+        }
+    },
+    computed: {
+        textoBotao () {
+            if (this.modoEscuroAtivo) {
+                return 'Modo Claro'
+            }
+            return 'Modo Escuro'
+        }
+    },
+    methods: {
+        alterarTema () {
+            this.modoEscuroAtivo = !this.modoEscuroAtivo
+            this.$emit('aoTemaAlterado', this.modoEscuroAtivo)
+        }
+    }
 })
 </script>
 
