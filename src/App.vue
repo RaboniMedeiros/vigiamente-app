@@ -11,9 +11,7 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-import BarraLateral from './components/BarraLateral.vue'
-import CadastroUsuario from './components/CadastroUsuario.vue'
-import Login from './components/Login.vue'
+import BarraLateral from './components/BarraLateral.vue';
 
 export default defineComponent({
   name: 'App',
@@ -53,3 +51,4 @@ main.modo-escuro {
   color: var(--texto-primario);
 }
 </style>
+

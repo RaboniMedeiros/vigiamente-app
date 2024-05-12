@@ -1,4 +1,4 @@
-import CadastroUsuario from "@/components/CadastroUsuario.vue";
+import CadastroUsuario from "@/views/CadastroUsuario.vue";
 import Login from "@/views/Login.vue";
 import { createRouter, createWebHashHistory, RouteRecordRaw } from "vue-router";
 

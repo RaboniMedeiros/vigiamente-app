@@ -1,50 +1,48 @@
 <template>
     <header>
-        <div class="rows">
-            <div class="row">
-                <h1>
-                    <img src="../assets/logo.png" alt="Logo do projeto VigiaMente">
-                    <br>
-                    VigiaMente
-                </h1>
-            </div>
-            <div class="row">
-                <button @click="alterarTema">
-                    {{ textoBotao }}
-                </button>
-            </div>
-            <nav>
-                <div class="row">
-                    <router-link to="/">
-                        <button>
-                                Login
-                        </button>
-                    </router-link>
-                </div>
-                <div class="row">
-                    <button>
-                            Dashboard
-                    </button>
-                </div>
-                <div class="row">
-                    <button>
-                            Cadastrar Twitter
-                    </button>
-                </div>
-                <div class="row">
-                    <router-link to="/cadastro">
-                        <button>
-                                Cadastrar Usuário
-                        </button>
-                    </router-link>
-                </div>
-                <div class="row">
-                    <button>
-                            Sair
-                    </button>
-                </div>
-            </nav>
+        <h1>
+            <img src="../assets/logo.png" alt="Logo do projeto VigiaMente">
+            <br>
+            VigiaMente
+        </h1>
+        <div class="has-text-centered">
+            <button class="button" @click="alterarTema">
+                {{ textoBotao }}
+            </button>
         </div>
+        <nav class="panel mt-5">
+            <ul>
+                <li>
+                    <router-link to="/" class="link">
+                        <button>
+                            Login
+                        </button>
+                    </router-link>
+                </li>
+                <li>
+                    <button>
+                        Dashboard
+                    </button>
+                </li>
+                <li>
+                    <button>
+                        Cadastrar Twitter
+                    </button>
+                </li>
+                <li>
+                    <router-link to="/cadastro" class="link">
+                        <button>
+                            Cadastrar Usuário
+                        </button>
+                    </router-link>
+                </li>
+                <li>
+                    <button>
+                        Sair
+                    </button>
+                </li>
+            </ul>
+        </nav>
     </header>
 </template>
 
@@ -102,29 +100,38 @@ export default defineComponent ({
         font-weight: 800;
         padding-bottom: 2rem;
     }
-    
-    div.rows {
-        padding: 2rem;
-        color: #222e50;
-        font-size: 1rem;
-        font-weight: 600;
+
+    nav {
+        box-shadow: none;
     }
 
-    div.row {
-        padding: 0 0 1rem 0;
+    .panel li {
+        margin: 1rem 0;
     }
 
     button {
         background-color: #426b69;
         color: white;
-        font: 0.875rem;
         border-radius: 0.25rem;
-        width: 10rem;
+        width: 12rem;
         height: 2.5rem;
     }
 
     button:hover {
         font-weight: 600;
         box-shadow: 0px 0px 5px black;
+    }
+
+    .link.router-link-active button {
+        background-color: white;
+        color: #426b69;
+        border-radius: 0.25rem;
+        width: 12rem;
+        height: 2.5rem;
+    }
+
+    .link.router-link-active button:hover {
+        font-weight: 400;
+        box-shadow: none;
     }
 </style>
