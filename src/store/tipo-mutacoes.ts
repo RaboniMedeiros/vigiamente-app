@@ -1,0 +1,3 @@
+export const ADICIONA_USUARIO = "ADICIONA_USUARIO";
+
+export const NOTIFICAR = 'NOTIFICAR';

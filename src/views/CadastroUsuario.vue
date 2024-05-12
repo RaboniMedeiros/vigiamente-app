@@ -13,18 +13,22 @@
           id="nomeUsuario"
           name="nomeUsuario"
           placeholder="Nome"
+          required
         />
       </div>
       <div class="row">
         <label for="perfilUsuario">Perfil</label>
-        <input
-          type="text"
+        <select
           class="input"
-          v-model="perfilUsuario"
+          v-model="tipoPerfil"
           id="perfilUsuario"
           name="perfilUsuario"
-          placeholder="Perfil"
-        />
+          required
+        >
+          <option value="" disabled>Selecione o perfil</option>
+          <option value="administrador">Administrador</option>
+          <option value="usuario">Usuário</option>
+        </select>
       </div>
       <div class="row">
         <label for="loginUsuario">Login</label>
@@ -35,6 +39,7 @@
           id="loginUsuario"
           name="loginUsuario"
           placeholder="Login"
+          required
         />
       </div>
       <div class="row">
@@ -46,75 +51,73 @@
           id="emailUsuario"
           name="emailUsuario"
           placeholder="E-mail"
+          required
         />
       </div>
       <div class="row">
         <button>Cadastrar Usuário</button>
       </div>
     </form>
-    <!-- <table class="table is-fullwidth">
-      <thead>
-        <tr>
-          <th>ID</th>
-          <th>Nome</th>
-          <th>Perfil</th>
-          <th>Login</th>
-          <th>E-mail</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-            <td>
-                {{ usuario.id }}
-            </td>
-            <td>
-                {{ usuario.nome }}
-            </td>
-            <td>
-                {{ usuario.perfil }}
-            </td>
-            <td>
-                {{ usuario.login }}
-            </td>
-            <td>
-                {{ usuario.email }}
-            </td>
-        </tr>
-      </tbody>
-    </table> -->
   </div>
+  {{ usuario.id }}
+  {{ usuario.nome }}
+  {{ usuario.perfil }}
+  {{ usuario.login }}
+  {{ usuario.email }}
 </template>
 
 <script lang="ts">
-import { defineComponent } from "vue";
-import IUsuario from "../interfaces/IUsuario";
+import { computed, defineComponent } from "vue";
+import { useStore } from "@/store";
+import { ADICIONA_USUARIO } from "@/store/tipo-mutacoes";
+import { TipoNotificacao } from "@/interfaces/INotificacao";
+import useNotificador from '@/hooks/notificador'
 
 export default defineComponent({
   name: "CadastroUsuario",
   data() {
     return {
       nomeUsuario: "",
-      perfilUsuario: "",
+      tipoPerfil: "",
       loginUsuario: "",
       emailUsuario: "",
-      usuario: {}
+      perfilUsuario: false,
     };
   },
   methods: {
     cadastrar() {
-      const usuario: IUsuario = {
+      if (this.tipoPerfil === "administrador") {
+        this.perfilUsuario = true;
+      } else {
+        this.perfilUsuario = false;
+      }
+      this.store.commit(ADICIONA_USUARIO, {
+        id: new Date().toISOString(),
         nome: this.nomeUsuario,
         perfil: this.perfilUsuario,
         login: this.loginUsuario,
         email: this.emailUsuario,
-        id: new Date().toISOString(),
-      };
-      this.usuario = usuario;
+      });
+      this.notificar(
+        TipoNotificacao.SUCESSO,
+        "Cadastro efetuado",
+        "O usuário foi cadastro com sucesso!"
+      );
       this.nomeUsuario = "";
-      this.perfilUsuario = "";
+      this.tipoPerfil = "";
       this.loginUsuario = "";
       this.emailUsuario = "";
+      this.perfilUsuario = false;
     },
+  },
+  setup() {
+    const store = useStore();
+    const { notificar } = useNotificador();
+    return {
+      store,
+      notificar,
+      usuario: computed(() => store.state.usuario),
+    };
   },
 });
 </script>
@@ -145,6 +148,13 @@ input {
 input::placeholder {
   color: #b5ca8d;
   font-style: italic;
+}
+
+select {
+  margin-top: 0.5rem;
+  background-color: rgba(181, 202, 141, 0.3);
+  border: none;
+  color: #b5ca8d;
 }
 
 button {
