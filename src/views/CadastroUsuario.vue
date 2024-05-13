@@ -59,19 +59,14 @@
       </div>
     </form>
   </div>
-  {{ usuario.id }}
-  {{ usuario.nome }}
-  {{ usuario.perfil }}
-  {{ usuario.login }}
-  {{ usuario.email }}
 </template>
 
 <script lang="ts">
-import { computed, defineComponent } from "vue";
+import { defineComponent } from "vue";
 import { useStore } from "@/store";
-import { ADICIONA_USUARIO } from "@/store/tipo-mutacoes";
+import { CADASTRAR_USUARIO } from "@/store/tipo-acoes";
 import { TipoNotificacao } from "@/interfaces/INotificacao";
-import useNotificador from '@/hooks/notificador'
+import useNotificador from "@/hooks/notificador";
 
 export default defineComponent({
   name: "CadastroUsuario",
@@ -91,18 +86,22 @@ export default defineComponent({
       } else {
         this.perfilUsuario = false;
       }
-      this.store.commit(ADICIONA_USUARIO, {
-        id: new Date().toISOString(),
-        nome: this.nomeUsuario,
-        perfil: this.perfilUsuario,
-        login: this.loginUsuario,
-        email: this.emailUsuario,
-      });
-      this.notificar(
-        TipoNotificacao.SUCESSO,
-        "Cadastro efetuado",
-        "O usuário foi cadastro com sucesso!"
-      );
+      this.store
+        .dispatch(CADASTRAR_USUARIO, {
+          id: new Date().toISOString(),
+          usuario: this.nomeUsuario,
+          admin: this.perfilUsuario,
+          login: this.loginUsuario,
+          email: this.emailUsuario,
+          senha: ""
+        })
+        .then(() => {
+          this.notificar(
+            TipoNotificacao.SUCESSO,
+            "Cadastro efetuado",
+            "O usuário foi cadastro com sucesso!"
+          );
+        });
       this.nomeUsuario = "";
       this.tipoPerfil = "";
       this.loginUsuario = "";
@@ -116,7 +115,6 @@ export default defineComponent({
     return {
       store,
       notificar,
-      usuario: computed(() => store.state.usuario),
     };
   },
 });

@@ -1,41 +1,99 @@
 <template>
   <div class="rows" role="form" aria-label="Formulário de login">
-    <div class="row">
-      <h2>Login</h2>
-    </div>
-    <div class="row">
-      <label for="usuario">Usuário</label>
-      <input
-        type="text"
-        id="usuario"
-        name="usuario"
-        class="input"
-        placeholder="Usuario"
-      />
-    </div>
-    <div class="row">
-      <label for="perfil">Senha</label>
-      <input
-        type="text"
-        id="senha"
-        name="senha"
-        class="input"
-        placeholder="Senha"
-      />
-    </div>
-    <div class="row">
-      <button>Login</button>
-    </div>
+    <form @submit.prevent="validar">
+      <div class="row">
+        <h2>Login</h2>
+      </div>
+      <div class="row">
+        <label for="loginUsuario">Login</label>
+        <input
+          type="text"
+          class="input"
+          v-model="loginUsuario"
+          id="loginUsuario"
+          name="loginUsuario"
+          placeholder="Login"
+          required
+        />
+      </div>
+      <div class="row">
+        <label for="senhaUsuario">Senha</label>
+        <input
+          type="text"
+          class="input"
+          v-model="senhaUsuario"
+          id="senhaUsuario"
+          name="senhaUsuario"
+          placeholder="Senha"
+          required
+        />
+      </div>
+      <div class="row">
+        <button>Login</button>
+      </div>
+    </form>
   </div>
 </template>
 
 <script lang="ts">
+import { TipoNotificacao } from "@/interfaces/INotificacao";
+import { useStore } from "@/store";
+import { OBTER_USUARIOS } from "@/store/tipo-acoes";
 import { defineComponent } from "vue";
+import useNotificador from "@/hooks/notificador";
 
 /* eslint-disable vue/multi-word-component-names */
 
 export default defineComponent({
   name: "Login",
+  data() {
+    return {
+      loginUsuario: "",
+      senhaUsuario: "",
+      validacao: false,
+    };
+  },
+  methods: {
+    validar() {
+      this.store.dispatch(OBTER_USUARIOS);
+      for (const usuario of this.store.state.usuarios) {
+        if (usuario.usuario === this.loginUsuario) {
+          if (usuario.senha === this.senhaUsuario) {
+            this.notificar(
+              TipoNotificacao.SUCESSO,
+              "Login efetuado",
+              "O login foi realizado com sucesso!"
+            );
+          } else {
+            this.notificar(
+              TipoNotificacao.FALHA,
+              "Login falhou",
+              "O login não foi realizado!"
+            );
+          }
+          this.validacao = true;
+        }
+      }
+      if (!this.validacao) {
+        this.notificar(
+          TipoNotificacao.FALHA,
+          "Login falhou",
+          "O login não foi realizado!"
+        );
+      }
+      this.validacao = false;
+      this.loginUsuario = "";
+      this.senhaUsuario = "";
+    },
+  },
+  setup() {
+    const store = useStore();
+    const { notificar } = useNotificador();
+    return {
+      store,
+      notificar,
+    };
+  },
 });
 </script>
 

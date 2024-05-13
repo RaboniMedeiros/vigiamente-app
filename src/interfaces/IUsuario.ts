@@ -1,7 +1,8 @@
 export default interface IUsuario {
   id: string;
-  nome: string;
-  perfil: boolean;
-  login: string;
+  usuario: string;
+  senha: string;
   email: string;
+  nome: string;
+  admin: boolean;
 }
