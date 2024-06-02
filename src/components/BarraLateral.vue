@@ -21,10 +21,12 @@
           <button>Dashboard</button>
         </li>
         <li>
-          <button>Cadastrar Twitter</button>
+          <router-link to="/cadastro-twitter" class="link">
+            <button>Cadastrar Twitter</button>
+          </router-link>
         </li>
         <li>
-          <router-link to="/cadastro" class="link">
+          <router-link to="/cadastro-usuario" class="link">
             <button>Cadastrar Usuário</button>
           </router-link>
         </li>

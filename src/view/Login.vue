@@ -62,7 +62,7 @@ export default defineComponent({
           "Login efetuado",
           "O login foi realizado com sucesso!"
         );
-        this.$router.push("/cadastro");
+        this.$router.push("/cadastro-usuario");
       } catch (error) {
         this.notificar(
           TipoNotificacao.FALHA,
