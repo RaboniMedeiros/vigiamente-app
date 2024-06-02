@@ -64,9 +64,10 @@
 <script lang="ts">
 import { defineComponent } from "vue";
 import { useStore } from "@/store";
-import { CADASTRAR_USUARIO } from "@/store/tipo-acoes";
 import { TipoNotificacao } from "@/interfaces/INotificacao";
 import useNotificador from "@/hooks/notificador";
+import { criaUsuario } from "@/service/userService";
+import IUsuario from "@/interfaces/IUsuario";
 
 export default defineComponent({
   name: "CadastroUsuario",
@@ -80,33 +81,38 @@ export default defineComponent({
     };
   },
   methods: {
-    cadastrar() {
+    async cadastrar() {
       if (this.tipoPerfil === "administrador") {
         this.perfilUsuario = true;
       } else {
         this.perfilUsuario = false;
       }
-      this.store
-        .dispatch(CADASTRAR_USUARIO, {
-          id: new Date().toISOString(),
-          usuario: this.nomeUsuario,
-          admin: this.perfilUsuario,
-          login: this.loginUsuario,
-          email: this.emailUsuario,
-          senha: ""
-        })
-        .then(() => {
-          this.notificar(
-            TipoNotificacao.SUCESSO,
-            "Cadastro efetuado",
-            "O usuário foi cadastro com sucesso!"
-          );
-        });
-      this.nomeUsuario = "";
-      this.tipoPerfil = "";
-      this.loginUsuario = "";
-      this.emailUsuario = "";
-      this.perfilUsuario = false;
+      const novoUsuario: IUsuario = {
+        nome: this.nomeUsuario,
+        admin: this.perfilUsuario,
+        usuario: this.loginUsuario,
+        email: this.emailUsuario,
+        senha: "",
+      };
+      try {
+        await criaUsuario(novoUsuario);
+        this.notificar(
+          TipoNotificacao.SUCESSO,
+          "Cadastro efetuado",
+          "O usuário foi cadastro com sucesso!"
+        );
+        this.nomeUsuario = "";
+        this.tipoPerfil = "";
+        this.loginUsuario = "";
+        this.emailUsuario = "";
+        this.perfilUsuario = false;
+      } catch (error) {
+        this.notificar(
+          TipoNotificacao.FALHA,
+          "Falha no Cadastro",
+          "Erro ao cadastrar usuário!"
+        );
+      }
     },
   },
   setup() {

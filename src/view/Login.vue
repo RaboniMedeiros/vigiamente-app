@@ -19,7 +19,7 @@
       <div class="row">
         <label for="senhaUsuario">Senha</label>
         <input
-          type="text"
+          type="password"
           class="input"
           v-model="senhaUsuario"
           id="senhaUsuario"
@@ -38,9 +38,9 @@
 <script lang="ts">
 import { TipoNotificacao } from "@/interfaces/INotificacao";
 import { useStore } from "@/store";
-import { OBTER_USUARIOS } from "@/store/tipo-acoes";
 import { defineComponent } from "vue";
 import useNotificador from "@/hooks/notificador";
+import { login } from "@/service/authService";
 
 /* eslint-disable vue/multi-word-component-names */
 
@@ -54,34 +54,22 @@ export default defineComponent({
     };
   },
   methods: {
-    validar() {
-      this.store.dispatch(OBTER_USUARIOS);
-      for (const usuario of this.store.state.usuarios) {
-        if (usuario.usuario === this.loginUsuario) {
-          if (usuario.senha === this.senhaUsuario) {
-            this.notificar(
-              TipoNotificacao.SUCESSO,
-              "Login efetuado",
-              "O login foi realizado com sucesso!"
-            );
-          } else {
-            this.notificar(
-              TipoNotificacao.FALHA,
-              "Login falhou",
-              "O login não foi realizado!"
-            );
-          }
-          this.validacao = true;
-        }
-      }
-      if (!this.validacao) {
+    async validar() {
+      try {
+        await login(this.loginUsuario, this.senhaUsuario);
+        this.notificar(
+          TipoNotificacao.SUCESSO,
+          "Login efetuado",
+          "O login foi realizado com sucesso!"
+        );
+        this.$router.push("/cadastro");
+      } catch (error) {
         this.notificar(
           TipoNotificacao.FALHA,
           "Login falhou",
           "O login não foi realizado!"
         );
       }
-      this.validacao = false;
       this.loginUsuario = "";
       this.senhaUsuario = "";
     },

@@ -8,7 +8,7 @@ import {
   NOTIFICAR,
 } from "./tipo-mutacoes";
 import { INotificacao } from "@/interfaces/INotificacao";
-import { CADASTRAR_USUARIO, OBTER_TWEETS, OBTER_USUARIOS } from "./tipo-acoes";
+import { CADASTRAR_USUARIO, OBTER_TWEETS, AUTENTICAR_USUARIO } from "./tipo-acoes";
 import http from "@/http";
 import ITweet from "@/interfaces/ITweet";
 
@@ -24,7 +24,6 @@ export const key: InjectionKey<Store<Estado>> = Symbol();
 export const store = createStore<Estado>({
   state: {
     usuario: {
-      id: "",
       nome: "",
       admin: false,
       usuario: "",
@@ -61,7 +60,7 @@ export const store = createStore<Estado>({
         .get("tweets/")
         .then((resposta) => commit(DEFINIR_TWEETS, resposta.data));
     },
-    [OBTER_USUARIOS]({ commit }) {
+    [AUTENTICAR_USUARIO]({ commit }) {
       return http
         .get("usuarios/")
         .then((resposta) => commit(DEFINIR_USUARIOS, resposta.data));

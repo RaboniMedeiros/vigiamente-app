@@ -1,5 +1,5 @@
-import CadastroUsuario from "@/views/CadastroUsuario.vue";
-import Login from "@/views/Login.vue";
+import CadastroUsuario from "@/view/CadastroUsuario.vue";
+import Login from "@/view/Login.vue";
 import { createRouter, createWebHashHistory, RouteRecordRaw } from "vue-router";
 
 const rotas: RouteRecordRaw[] = [
