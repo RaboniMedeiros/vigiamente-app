@@ -4,7 +4,7 @@
     :class="{ 'modo-escuro': modoEscuroAtivo }"
   >
     <div class="column is-one-quarter">
-      <BarraLateral @aoTemaAlterado="trocarTema" />
+      <BarraLateral @aoTemaAlterado="trocarTema" @fazerLogout="logout" />
     </div>
     <div class="column is-three-quarter conteudo">
       <Notificacoes />
@@ -17,6 +17,9 @@
 import { defineComponent } from "vue";
 import BarraLateral from "./components/BarraLateral.vue";
 import Notificacoes from "./components/Notificacoes.vue";
+import { logout } from "@/service/authService";
+import useNotificador from "@/hooks/notificador";
+import { TipoNotificacao } from "@/interfaces/INotificacao";
 
 export default defineComponent({
   name: "App",
@@ -29,9 +32,32 @@ export default defineComponent({
       modoEscuroAtivo: false,
     };
   },
+  setup() {
+    const { notificar } = useNotificador();
+    return {
+      notificar,
+    };
+  },
   methods: {
     trocarTema(modoEscuroAtivo: boolean) {
       this.modoEscuroAtivo = modoEscuroAtivo;
+    },
+    async logout() {
+      try {
+        await logout();
+        this.notificar(
+          TipoNotificacao.SUCESSO,
+          "Logout efetuado",
+          "Você não está mais logado"
+        );
+        this.$router.push("/");
+      } catch (error) {
+        this.notificar(
+          TipoNotificacao.FALHA,
+          "Logout falhou",
+          "Não conseguimos sair"
+        );
+      }
     },
   },
 });

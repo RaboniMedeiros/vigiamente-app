@@ -29,7 +29,7 @@
           </router-link>
         </li>
         <li>
-          <button>Sair</button>
+          <button @click="sair">Sair</button>
         </li>
       </ul>
     </nav>
@@ -41,7 +41,7 @@ import { defineComponent } from "vue";
 
 export default defineComponent({
   name: "BarraLateral",
-  emits: ["aoTemaAlterado"],
+  emits: ["aoTemaAlterado", "fazerLogout"],
   data() {
     return {
       modoEscuroAtivo: false,
@@ -59,6 +59,9 @@ export default defineComponent({
     alterarTema() {
       this.modoEscuroAtivo = !this.modoEscuroAtivo;
       this.$emit("aoTemaAlterado", this.modoEscuroAtivo);
+    },
+    sair() {
+      this.$emit("fazerLogout");
     },
   },
 });
