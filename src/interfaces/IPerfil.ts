@@ -1,5 +1,5 @@
 export default interface IPerfil {
-    id?: string;
+    _id: string;
     usuario: string;
   }
   

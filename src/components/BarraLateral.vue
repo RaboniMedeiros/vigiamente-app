@@ -18,7 +18,9 @@
           </router-link>
         </li>
         <li>
-          <button>Dashboard</button>
+          <router-link to="/dashboard" class="link">
+            <button>Dashboard</button>
+          </router-link>
         </li>
         <li>
           <router-link to="/cadastro-twitter" class="link">

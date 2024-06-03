@@ -23,7 +23,7 @@
       <div class="row">
         <h2 class="tweets">Tweets Cadastrados</h2>
         <ul>
-          <li v-for="perfil in perfis" :key="perfil.id">@{{ perfil.usuario }}</li>
+          <li v-for="perfil in perfis" :key="perfil._id">@{{ perfil.usuario }}</li>
         </ul>
       </div>
     </div>
@@ -50,6 +50,7 @@
     methods: {
       async cadastrar() {
         const novoPerfil: IPerfil = {
+          _id: "",
           usuario: this.perfilTwitter,
         };
         try {
