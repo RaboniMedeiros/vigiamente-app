@@ -50,7 +50,8 @@ export default defineComponent({
           "Logout efetuado",
           "Você não está mais logado"
         );
-        this.$router.push("/");
+        window.location.href = '/login';
+        window.location.reload();
       } catch (error) {
         this.notificar(
           TipoNotificacao.FALHA,

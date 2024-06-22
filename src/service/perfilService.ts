@@ -11,7 +11,7 @@ export const listarPerfis = async (): Promise<IPerfil[]> => {
   return response.data;
 };
 
-export async function obterTweetsDoPerfil(perfilId: string): Promise<ITweet[]> {
-  const response = await api.get(`/perfis/${perfilId}/tweets`);
+export async function obterTweetsDoPerfil(perfilUsuario: string): Promise<ITweet[]> {
+  const response = await api.get(`/perfis/tweets?perfil=${perfilUsuario}`);
   return response.data;
 }

@@ -62,7 +62,7 @@ export default defineComponent({
           "Login efetuado",
           "O login foi realizado com sucesso!"
         );
-        this.$router.push("/dashboard");
+        window.location.href = '/';
       } catch (error) {
         this.notificar(
           TipoNotificacao.FALHA,

@@ -13,27 +13,27 @@
     <nav class="panel mt-5">
       <ul>
         <li>
-          <router-link to="/" class="link">
+          <router-link to="/login" class="link" v-if="!isAuthenticated">
             <button>Login</button>
           </router-link>
         </li>
         <li>
-          <router-link to="/dashboard" class="link">
+          <router-link to="/" class="link" v-if="isAuthenticated">
             <button>Dashboard</button>
           </router-link>
         </li>
         <li>
-          <router-link to="/cadastro-twitter" class="link">
+          <router-link to="/cadastro-twitter" class="link" v-if="isAuthenticated">
             <button>Cadastrar Twitter</button>
           </router-link>
         </li>
         <li>
-          <router-link to="/cadastro-usuario" class="link">
+          <router-link to="/cadastro-usuario" class="link" v-if="isAuthenticated">
             <button>Cadastrar Usuário</button>
           </router-link>
         </li>
         <li>
-          <button @click="sair">Sair</button>
+          <button @click="sair" v-if="isAuthenticated">Sair</button>
         </li>
       </ul>
     </nav>
@@ -57,6 +57,10 @@ export default defineComponent({
         return "Modo Claro";
       }
       return "Modo Escuro";
+    },
+    isAuthenticated(): boolean {
+      const token = localStorage.getItem("token");
+      return !!token;
     },
   },
   methods: {

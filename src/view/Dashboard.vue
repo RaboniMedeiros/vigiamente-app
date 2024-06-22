@@ -56,7 +56,7 @@ export default defineComponent({
   methods: {
     async selecionarPerfil(perfil: IPerfil) {
       this.perfilSelecionado = perfil;
-      const tweets = await obterTweetsDoPerfil(perfil._id);
+      const tweets = await obterTweetsDoPerfil(perfil.usuario);
       this.totalTweets = tweets.length;
       this.tweetsSuicidas = tweets.filter((tweet) => tweet.isSuicida);
       this.totalSuicidas = this.tweetsSuicidas.length;
