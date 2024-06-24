@@ -131,7 +131,6 @@ export default defineComponent({
       if (token) {
         try {
           const usuario = await pegaUsuario();
-          console.log(usuario);
           if (usuario.admin) {
             this.isAdminState = true;
           }

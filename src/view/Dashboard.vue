@@ -16,9 +16,9 @@
       <div v-if="perfilSelecionado" class="tweets-info">
         <h2>Tweets do Perfil @{{ perfilSelecionado.usuario }}</h2>
         <p>Total de Tweets: {{ totalTweets }}</p>
-        <p>Tweets Suicidas: {{ totalSuicidas }}</p>
+        <p>Tweets Indicados: {{ totalSuicidas }}</p>
         <div class="suicida-tweets">
-          <h3>Tweets Suicidas</h3>
+          <h3>Tweets Indicados</h3>
           <ul>
             <li v-for="tweet in tweetsSuicidas" :key="tweet.id">
               <a :href="tweet.link">{{ tweet.texto }}</a>
