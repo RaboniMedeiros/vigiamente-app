@@ -9,3 +9,8 @@ export const criaUsuario = async (novoUsuario: IUsuario): Promise<IUsuario> => {
     throw new Error("Erro ao criar usuário");
   }
 };
+
+export const pegaUsuario = async (): Promise<IUsuario> => {
+  const response = await api.get<IUsuario>("/usuarios/auth");
+  return response.data;
+};

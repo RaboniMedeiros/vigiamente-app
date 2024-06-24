@@ -28,7 +28,7 @@
           </router-link>
         </li>
         <li>
-          <router-link to="/cadastro-usuario" class="link" v-if="isAuthenticated">
+          <router-link to="/cadastro-usuario" class="link" v-if="isAdmin">
             <button>Cadastrar Usuário</button>
           </router-link>
         </li>
@@ -42,6 +42,7 @@
 
 <script lang="ts">
 import { defineComponent } from "vue";
+import { pegaUsuario } from "@/service/userService";
 
 export default defineComponent({
   name: "BarraLateral",
@@ -49,6 +50,7 @@ export default defineComponent({
   data() {
     return {
       modoEscuroAtivo: false,
+      isAdminState: false, // Estado para armazenar se o usuário é admin
     };
   },
   computed: {
@@ -62,6 +64,9 @@ export default defineComponent({
       const token = localStorage.getItem("token");
       return !!token;
     },
+    isAdmin(): boolean {
+      return this.isAdminState;
+    }
   },
   methods: {
     alterarTema() {
@@ -71,6 +76,25 @@ export default defineComponent({
     sair() {
       this.$emit("fazerLogout");
     },
+    async verificarAdmin() {
+      const token = localStorage.getItem("token");
+      if (token) {
+        try {
+          const usuario = await pegaUsuario();
+          console.log(usuario);
+          if (usuario.admin) {
+            this.isAdminState = true;
+          }
+        } catch (error) {
+          this.isAdminState = false;
+        }
+      } else {
+        this.isAdminState = false;
+      }
+    }
+  },
+  mounted() {
+    this.verificarAdmin(); // Verifica se o usuário é admin ao montar o componente
   },
 });
 </script>

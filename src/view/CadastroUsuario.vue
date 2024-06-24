@@ -1,5 +1,10 @@
 <template>
-  <div class="rows" role="form" aria-label="Formulário de cadastro de usuário">
+  <div
+    class="rows"
+    role="form"
+    aria-label="Formulário de cadastro de usuário"
+    v-if="isAdmin"
+  >
     <form @submit.prevent="cadastrar">
       <div class="row">
         <h2>Cadastrar Usuário</h2>
@@ -68,6 +73,7 @@ import { TipoNotificacao } from "@/interfaces/INotificacao";
 import useNotificador from "@/hooks/notificador";
 import { criaUsuario } from "@/service/userService";
 import IUsuario from "@/interfaces/IUsuario";
+import { pegaUsuario } from "@/service/userService";
 
 export default defineComponent({
   name: "CadastroUsuario",
@@ -78,7 +84,13 @@ export default defineComponent({
       loginUsuario: "",
       emailUsuario: "",
       perfilUsuario: false,
+      isAdminState: false,
     };
+  },
+  computed: {
+    isAdmin(): boolean {
+      return this.isAdminState;
+    },
   },
   methods: {
     async cadastrar() {
@@ -114,6 +126,22 @@ export default defineComponent({
         );
       }
     },
+    async verificarAdmin() {
+      const token = localStorage.getItem("token");
+      if (token) {
+        try {
+          const usuario = await pegaUsuario();
+          console.log(usuario);
+          if (usuario.admin) {
+            this.isAdminState = true;
+          }
+        } catch (error) {
+          this.isAdminState = false;
+        }
+      } else {
+        this.isAdminState = false;
+      }
+    },
   },
   setup() {
     const store = useStore();
@@ -122,6 +150,9 @@ export default defineComponent({
       store,
       notificar,
     };
+  },
+  mounted() {
+    this.verificarAdmin(); // Verifica se o usuário é admin ao montar o componente
   },
 });
 </script>
